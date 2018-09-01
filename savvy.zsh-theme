@@ -174,14 +174,14 @@ prompt_hg() {
 
 # Dir: current working directory
 prompt_dir() {
-  local mypwd="${PWD}"
-	local shrinkpathoutput="$(shrink_path ${PWD})"
-  if [[ $mypwd == \/home\/savvy/* ]] 
+	local shrink_path_output="$(shrink_path ${PWD})"
+  if [[ "${PWD}" =~ "${HOME}/*" ]] 
   then
-    shrinkpathoutput="${shrinkpathoutput/\/h\/s/~}"
+    local shrink_home="$(shrink_path ${HOME})"
+    shrink_path_output="~${${shrink_path_output}#${shrink_home}}"
   fi
-  [[ ${PWD} == "/home/savvy" ]] && shrinkpathoutput="~"
-  prompt_segment blue black "${shrinkpathoutput}"
+
+  prompt_segment blue black "${shrink_path_output}"
 }
 
 # Virtualenv: current working virtualenv
